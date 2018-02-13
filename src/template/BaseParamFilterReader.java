@@ -17,8 +17,10 @@
  */
 package template;
 
+import java.io.IOException;
 import java.io.Reader;
 
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.filters.BaseFilterReader;
 import org.apache.tools.ant.types.Parameter;
 import org.apache.tools.ant.types.Parameterizable;
@@ -30,10 +32,25 @@ import org.apache.tools.ant.types.Parameterizable;
 public abstract class BaseParamFilterReader
     extends BaseFilterReader
     implements Parameterizable {
-    /** The passed in parameter array. */
+    /** Parameter name for the words to filter on. */
+	protected static final String CONTAINS_KEY = "contains";
+	/** Parameter name for the words to filter on. */
+	protected static final String NEGATE_KEY = "negate";
+	/** The passed in parameter array. */
     private Parameter[] parameters;
+	/**
+	 * Remaining line to be read from this filter, or <code>null</code> if
+	 * the next call to <code>read()</code> should read the original stream
+	 * to find the next matching line.
+	 */
+	protected String line = null;
+	private boolean negate = false;
 
-    /**
+    public abstract void initialize(Parameter parameter);
+
+	public abstract boolean matches();
+
+	/**
      * Constructor for "dummy" instances.
      *
      * @see BaseFilterReader#BaseFilterReader()
@@ -72,4 +89,65 @@ public abstract class BaseParamFilterReader
     protected final Parameter[] getParameters() {
         return parameters;
     }
+
+	/**
+	 * Returns the next character in the filtered stream, only including
+	 * lines from the original stream which contain all of the specified words.
+	 *
+	 * @return the next character in the resulting stream, or -1
+	 * if the end of the resulting stream has been reached
+	 *
+	 * @exception IOException if the underlying stream throws an IOException
+	 * during reading
+	 */
+	public int read() throws IOException {
+	    if (!getInitialized()) {
+	        Parameter[] params = getParameters();
+			if (params != null) {
+			    for (int i = 0; i < params.length; i++) {
+			        Parameter parameter = params[i];
+					initialize(parameter);
+			    }
+			}
+	        setInitialized(true);
+	    }
+	
+	    int ch = -1;
+	
+	    if (line != null) {
+	        ch = line.charAt(0);
+	        if (line.length() == 1) {
+	            line = null;
+	        } else {
+	            line = line.substring(1);
+	        }
+	    } else {
+	        for (line = readLine(); line != null; line = readLine()) {
+	            boolean matches = matches();
+	            if (matches ^ isNegated()) {
+	                break;
+	            }
+	        }
+	        if (line != null) {
+	            return read();
+	        }
+	    }
+	    return ch;
+	}
+
+	/**
+	 * Set the negation mode.  Default false (no negation).
+	 * @param b the boolean negation mode to set.
+	 */
+	public void setNegate(boolean b) {
+	    negate = b;
+	}
+
+	/**
+	 * Find out whether we have been negated.
+	 * @return boolean negation flag.
+	 */
+	public boolean isNegated() {
+	    return negate;
+	}
 }

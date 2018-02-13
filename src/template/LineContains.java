@@ -17,7 +17,6 @@
  */
 package template;
 
-import java.io.IOException;
 import java.io.Reader;
 import java.util.Vector;
 import org.apache.tools.ant.Project;
@@ -49,23 +48,8 @@ import org.apache.tools.ant.types.Parameter;
 public final class LineContains
     extends BaseParamFilterReader
     implements ChainableReader {
-    /** Parameter name for the words to filter on. */
-    private static final String CONTAINS_KEY = "contains";
-
-    /** Parameter name for the words to filter on. */
-    private static final String NEGATE_KEY = "negate";
-
     /** Vector that holds the strings that input lines must contain. */
     private Vector contains = new Vector();
-
-    /**
-     * Remaining line to be read from this filter, or <code>null</code> if
-     * the next call to <code>read()</code> should read the original stream
-     * to find the next matching line.
-     */
-    private String line = null;
-
-    private boolean negate = false;
 
     /**
      * Constructor for "dummy" instances.
@@ -86,51 +70,7 @@ public final class LineContains
         super(in);
     }
 
-    /**
-     * Returns the next character in the filtered stream, only including
-     * lines from the original stream which contain all of the specified words.
-     *
-     * @return the next character in the resulting stream, or -1
-     * if the end of the resulting stream has been reached
-     *
-     * @exception IOException if the underlying stream throws an IOException
-     * during reading
-     */
-    public int read() throws IOException {
-        if (!getInitialized()) {
-            Parameter[] params = getParameters();
-			if (params != null) {
-			    for (int i = 0; i < params.length; i++) {
-			        Parameter parameter = params[i];
-					initialize(parameter);
-			    }
-			}
-            setInitialized(true);
-        }
-
-        int ch = -1;
-
-        if (line != null) {
-            ch = line.charAt(0);
-            if (line.length() == 1) {
-                line = null;
-            } else {
-                line = line.substring(1);
-            }
-        } else {
-            for (line = readLine(); line != null; line = readLine()) {
-                boolean matches = matches();
-                if (matches ^ isNegated()) {
-                    break;
-                }
-            }
-            if (line != null) {
-                return read();
-            }
-        }
-        return ch;
-    }
-
+    @Override
 	public boolean matches() {
 		boolean matches = true;
 		for (int i = 0; matches && i < contains.size(); i++) {
@@ -140,6 +80,7 @@ public final class LineContains
 		return matches;
 	}
 
+	@Override
 	public void initialize(Parameter parameter) {
 		if (CONTAINS_KEY.equals(parameter.getType())) {
 		    contains.addElement(parameter.getValue());
@@ -156,22 +97,6 @@ public final class LineContains
      */
     public void addConfiguredContains(final Contains contains) {
         this.contains.addElement(contains.getValue());
-    }
-
-    /**
-     * Set the negation mode.  Default false (no negation).
-     * @param b the boolean negation mode to set.
-     */
-    public void setNegate(boolean b) {
-        negate = b;
-    }
-
-    /**
-     * Find out whether we have been negated.
-     * @return boolean negation flag.
-     */
-    public boolean isNegated() {
-        return negate;
     }
 
     /**
