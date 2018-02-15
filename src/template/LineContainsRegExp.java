@@ -17,6 +17,7 @@
  */
 package template;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.util.Vector;
 import org.apache.tools.ant.Project;
@@ -70,7 +71,14 @@ public final class LineContainsRegExp
     public LineContainsRegExp(final Reader in) {
         super(in);
     }
-
+    
+    public int read() throws IOException {
+    	return read(
+    			(Parameter parameter) -> initialize(parameter) , 
+    			() -> matches()
+    			);
+    }
+    
     public boolean matches() {
 		boolean matches = true;
 		for (int i = 0; matches && i < regexps.size(); i++) {

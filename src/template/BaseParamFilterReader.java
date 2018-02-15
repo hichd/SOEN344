@@ -19,6 +19,8 @@ package template;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.filters.BaseFilterReader;
@@ -29,7 +31,7 @@ import org.apache.tools.ant.types.Parameterizable;
  * Parameterized base class for core filter readers.
  *
  */
-public abstract class BaseParamFilterReader
+public /*abstract*/ class BaseParamFilterReader
     extends BaseFilterReader
     implements Parameterizable {
     /** Parameter name for the words to filter on. */
@@ -46,9 +48,9 @@ public abstract class BaseParamFilterReader
 	protected String line = null;
 	private boolean negate = false;
 
-    public abstract void initialize(Parameter parameter);
+    /*public abstract void initialize(Parameter parameter);
 
-	public abstract boolean matches();
+	public abstract boolean matches();*/
 
 	/**
      * Constructor for "dummy" instances.
@@ -100,13 +102,13 @@ public abstract class BaseParamFilterReader
 	 * @exception IOException if the underlying stream throws an IOException
 	 * during reading
 	 */
-	public int read() throws IOException {
+	public int read(Consumer<Parameter> initializer, Supplier<Boolean> matcher) throws IOException {
 	    if (!getInitialized()) {
 	        Parameter[] params = getParameters();
 			if (params != null) {
 			    for (int i = 0; i < params.length; i++) {
 			        Parameter parameter = params[i];
-					initialize(parameter);
+			        initializer.accept(parameter);
 			    }
 			}
 	        setInitialized(true);
@@ -123,7 +125,7 @@ public abstract class BaseParamFilterReader
 	        }
 	    } else {
 	        for (line = readLine(); line != null; line = readLine()) {
-	            boolean matches = matches();
+	            boolean matches = matcher.get();
 	            if (matches ^ isNegated()) {
 	                break;
 	            }
