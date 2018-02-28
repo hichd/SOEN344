@@ -1,6 +1,7 @@
 package junit.ui;
 
 import junit.framework.*;
+import junit.runner.BaseTestRunner;
 import junit.util.*;
 
 import java.util.Vector;
@@ -18,7 +19,7 @@ import java.awt.image.*;
  * </pre>
  * TestRunner takes as an optional argument the name of the testcase class to be run.
  */
-public class TestRunner extends Object implements TestListener {
+public class TestRunner extends BaseTestRunner implements TestListener {
 	private Frame fFrame;
 	private Vector fExceptions;
 	private Vector fFailedTests;

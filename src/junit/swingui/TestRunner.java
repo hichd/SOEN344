@@ -1,6 +1,7 @@
 package junit.swingui;
 
 import junit.framework.*;
+import junit.runner.BaseTestRunner;
 import junit.util.*;
 
 import java.util.Vector;
@@ -27,7 +28,7 @@ import java.awt.image.*;
  * </pre>
  * TestRunner takes as an optional argument the name of the testcase class to be run.
  */
-public class TestRunner extends Object implements TestListener, DocumentListener {
+public class TestRunner extends BaseTestRunner implements TestListener, DocumentListener {
 	protected JFrame fFrame;
 	private Thread fRunner;
 	private TestResult fTestResult;

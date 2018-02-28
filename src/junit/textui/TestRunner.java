@@ -7,6 +7,7 @@ import java.util.*;
 import java.io.PrintStream;
 
 import junit.framework.*;
+import junit.runner.BaseTestRunner;
 import junit.util.*;
 
 /**
@@ -25,7 +26,7 @@ import junit.util.*;
  * TestRunner prints a trace as the tests are executed followed by a
  * summary at the end. 
  */
-public class TestRunner implements TestListener {
+public class TestRunner extends BaseTestRunner implements TestListener {
 	private static final String SUITE_METHODNAME = "suite";
 	PrintStream fWriter;
 /**
