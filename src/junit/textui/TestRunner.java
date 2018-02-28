@@ -225,7 +225,7 @@ public TestRunner(PrintStream writer) {
 		
 		Class testClass= null;
 		try {
-			 testClass= Class.forName(testCase);
+			 testClass= loadSuiteClass(testCase);
 		} catch(Exception e) {
 			System.out.println("Suite class \""+testCase+"\" not found");
 			System.exit(-1);
@@ -249,6 +249,9 @@ public TestRunner(PrintStream writer) {
 			return null;
 		}
 		return suite;
+	}
+	private Class loadSuiteClass(String testCase) throws ClassNotFoundException {
+		return Class.forName(testCase);
 	}
 	public synchronized void startTest(Test test) {
 		System.out.print(".");
