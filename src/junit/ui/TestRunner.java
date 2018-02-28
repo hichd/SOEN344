@@ -45,7 +45,6 @@ public class TestRunner extends BaseTestRunner implements TestListener {
 	
 	private static Font PLAIN_FONT= new Font("dialog", Font.PLAIN, 12);
 	private static final int GAP= 4;
-	private static final String SUITE_METHODNAME= "suite";
 	public TestRunner() {
 	} 
 	private void about() {
@@ -296,39 +295,6 @@ public class TestRunner extends BaseTestRunner implements TestListener {
 	public void endTest(Test test) {
 		setLabelValue(fNumberOfRuns, fTestResult.runCount());
 		fProgressIndicator.step(fTestResult.wasSuccessful());
-	}
-	private Test getTest(String suiteClassName) {
-		if (suiteClassName.length() <= 0) {
-			clearStatus();
-			runFailed(invalidClassNameMessage());
-			return null;
-		}
-		
-		Class testClass= null;
-		try {
-			testClass= loadSuiteClass(suiteClassName);
-		} catch(Exception e) {
-			runFailed("Class \""+suiteClassName+"\" not found");
-			return null;
-		}
-			
-		Method suiteMethod= null;
-		try {
-			suiteMethod= testClass.getMethod(SUITE_METHODNAME, new Class[0]);
-	 	} catch(Exception e) {
-	 		clearStatus();			
-			return new TestSuite(testClass);
-		}
-	
-		Test test= null;
-		try {
-			test= (Test)suiteMethod.invoke(null, new Class[0]); // static method
-		} catch(Exception e) {
-			runFailed("Could not invoke the suite() method");
-			return null;
-		}
-		clearStatus();
-		return test;
 	}
 	protected String invalidClassNameMessage() {
 		return "Invalid class name";

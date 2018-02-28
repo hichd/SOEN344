@@ -56,8 +56,6 @@ public class TestRunner extends BaseTestRunner implements TestListener, Document
 	private static Font PLAIN_FONT= new Font("dialog", Font.PLAIN, 12);
 	private static Font BOLD_FONT= new Font("dialog", Font.BOLD, 12);
 	private static final int GAP= 4;
-	private static final String SUITE_METHODNAME= "suite";
-
 	static class FailureListCellRenderer extends DefaultListCellRenderer {
 		private ImageIcon fFailureIcon;
 		private ImageIcon fErrorIcon;
@@ -487,44 +485,6 @@ public class TestRunner extends BaseTestRunner implements TestListener, Document
 			return "";
 		JTextField field= (JTextField)fSuiteCombo.getEditor().getEditorComponent();
 		return field.getText();
-	}
-
-	/**
-	 * Loads the named test suite and returns it. Errors during loading
-	 * are reported on the status line.
-	 */
-	protected Test getTest(String suiteClassName) {
-		if (suiteClassName.length() <= 0) {
-			clearStatus();
-			runFailed(invalidClassNameMessage());
-			return null;
-		}
-		
-		Class testClass= null;
-		try {
-			testClass= loadSuiteClass(suiteClassName);
-		} catch(Exception e) {
-			runFailed("Class \""+suiteClassName+"\" not found");
-			return null;
-		}
-			
-		Method suiteMethod= null;
-		try {
-			suiteMethod= testClass.getMethod(SUITE_METHODNAME, new Class[0]);
-	 	} catch(Exception e) {
-	 		clearStatus();			
-			return new TestSuite(testClass);
-		}
-	
-		Test test= null;
-		try {
-			test= (Test)suiteMethod.invoke(null, new Class[0]); // static method
-		} catch(Exception e) {
-			runFailed("Could not invoke the suite() method");
-			return null;
-		}
-		clearStatus();
-		return test;
 	}
 
 	protected String invalidClassNameMessage() {
