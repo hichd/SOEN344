@@ -250,13 +250,13 @@ public TestRunner(PrintStream writer) {
 		clearStatus();
 		return test;
 	}
-	private String invalidClassNameMessage() {
+	protected String invalidClassNameMessage() {
 		return "Usage: TestRunner [-wait] testCaseName, where name is the name of the TestCase class";
 	}
-	private void clearStatus() {
+	protected void clearStatus() {
 		
 	}
-	private void runFailed(String message) {
+	protected void runFailed(String message) {
 		System.out.println(message);
 		System.exit(-1);
 	}

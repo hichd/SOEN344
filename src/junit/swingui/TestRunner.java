@@ -527,11 +527,11 @@ public class TestRunner extends BaseTestRunner implements TestListener, Document
 		return test;
 	}
 
-	private String invalidClassNameMessage() {
+	protected String invalidClassNameMessage() {
 		return "Invalid class name";
 	}
 
-	private void clearStatus() {
+	protected void clearStatus() {
 		fStatusLine.setText("");
 	}
 	
@@ -671,7 +671,7 @@ public class TestRunner extends BaseTestRunner implements TestListener, Document
 		runSuite();
 	}
 	
-	private void runFailed(String message) {
+	protected void runFailed(String message) {
 		showStatus(message);
 		fRun.setText("Run");
 		fRunner= null;

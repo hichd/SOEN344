@@ -330,10 +330,10 @@ public class TestRunner extends BaseTestRunner implements TestListener {
 		clearStatus();
 		return test;
 	}
-	private String invalidClassNameMessage() {
+	protected String invalidClassNameMessage() {
 		return "Invalid class name";
 	}
-	private void clearStatus() {
+	protected void clearStatus() {
 		fStatusLine.setText("");
 	}
 	private boolean isErrorSelected() {
@@ -407,7 +407,7 @@ public class TestRunner extends BaseTestRunner implements TestListener {
 	public void run() {
 		runSuite();
 	}
-	private void runFailed(String message) {
+	protected void runFailed(String message) {
 		showStatus(message);
 		fRun.setLabel("Run");
 		fRunner= null;
