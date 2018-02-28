@@ -213,14 +213,12 @@ public TestRunner(PrintStream writer) {
 			doRun(suite, wait);
 		}
 		catch(Exception e) {
-			String message = "Could not create and run test suite";
-			runFailed(message);
+			runFailed("Could not create and run test suite");
 		}
 	}
 	private Test getTest(String testCase) {
 		if (testCase.equals("")) {
-			String message = "Usage: TestRunner [-wait] testCaseName, where name is the name of the TestCase class";
-			runFailed(message);
+			runFailed("Usage: TestRunner [-wait] testCaseName, where name is the name of the TestCase class");
 			return null;
 		}
 		
@@ -228,8 +226,7 @@ public TestRunner(PrintStream writer) {
 		try {
 			 testClass= loadSuiteClass(testCase);
 		} catch(Exception e) {
-			String message = "Suite class \""+testCase+"\" not found";
-			runFailed(message);
+			runFailed("Suite class \""+testCase+"\" not found");
 			return null;
 		}
 		
@@ -245,8 +242,7 @@ public TestRunner(PrintStream writer) {
 		try {
 			suite= (Test)suiteMethod.invoke(null, new Class[0]); // static method
 		} catch(Exception e) {
-			String message = "Could not invoke the suite() method";
-			runFailed(message);
+			runFailed("Could not invoke the suite() method");
 			return null;
 		}
 		return suite;
