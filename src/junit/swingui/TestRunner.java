@@ -495,7 +495,7 @@ public class TestRunner extends Object implements TestListener, DocumentListener
 	protected Test getTest(String suiteClassName) {
 		if (suiteClassName.length() <= 0) {
 			clearStatus();
-			runFailed("Invalid class name");
+			runFailed(invalidClassNameMessage());
 			return null;
 		}
 		
@@ -524,6 +524,10 @@ public class TestRunner extends Object implements TestListener, DocumentListener
 		}
 		clearStatus();
 		return test;
+	}
+
+	private String invalidClassNameMessage() {
+		return "Invalid class name";
 	}
 
 	private void clearStatus() {

@@ -219,7 +219,7 @@ public TestRunner(PrintStream writer) {
 	private Test getTest(String suiteClassName) {
 		if (suiteClassName.length() <= 0) {
 			clearStatus();
-			runFailed("Usage: TestRunner [-wait] testCaseName, where name is the name of the TestCase class");
+			runFailed(invalidClassNameMessage());
 			return null;
 		}
 		
@@ -248,6 +248,9 @@ public TestRunner(PrintStream writer) {
 		}
 		clearStatus();
 		return test;
+	}
+	private String invalidClassNameMessage() {
+		return "Usage: TestRunner [-wait] testCaseName, where name is the name of the TestCase class";
 	}
 	private void clearStatus() {
 		

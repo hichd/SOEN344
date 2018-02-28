@@ -299,7 +299,7 @@ public class TestRunner extends Object implements TestListener {
 	private Test getTest(String suiteClassName) {
 		if (suiteClassName.length() <= 0) {
 			clearStatus();
-			runFailed("Invalid class name");
+			runFailed(invalidClassNameMessage());
 			return null;
 		}
 		
@@ -328,6 +328,9 @@ public class TestRunner extends Object implements TestListener {
 		}
 		clearStatus();
 		return test;
+	}
+	private String invalidClassNameMessage() {
+		return "Invalid class name";
 	}
 	private void clearStatus() {
 		fStatusLine.setText("");
