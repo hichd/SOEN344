@@ -219,7 +219,8 @@ public TestRunner(PrintStream writer) {
 	}
 	private Test getTest(String testCase) {
 		if (testCase.equals("")) {
-			System.out.println("Usage: TestRunner [-wait] testCaseName, where name is the name of the TestCase class");
+			String message = "Usage: TestRunner [-wait] testCaseName, where name is the name of the TestCase class";
+			System.out.println(message);
 			System.exit(-1);
 			return null;
 		}
@@ -228,7 +229,8 @@ public TestRunner(PrintStream writer) {
 		try {
 			 testClass= loadSuiteClass(testCase);
 		} catch(Exception e) {
-			System.out.println("Suite class \""+testCase+"\" not found");
+			String message = "Suite class \""+testCase+"\" not found";
+			System.out.println(message);
 			System.exit(-1);
 			return null;
 		}
@@ -245,7 +247,8 @@ public TestRunner(PrintStream writer) {
 		try {
 			suite= (Test)suiteMethod.invoke(null, new Class[0]); // static method
 		} catch(Exception e) {
-			System.out.println("Could not invoke the suite() method");
+			String message = "Could not invoke the suite() method";
+			System.out.println(message);
 			System.exit(-1);
 			return null;
 		}
