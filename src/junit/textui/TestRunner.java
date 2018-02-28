@@ -220,6 +220,7 @@ public TestRunner(PrintStream writer) {
 		if (testCase.equals("")) {
 			System.out.println("Usage: TestRunner [-wait] testCaseName, where name is the name of the TestCase class");
 			System.exit(-1);
+			return null;
 		}
 		
 		Class testClass= null;
@@ -228,6 +229,7 @@ public TestRunner(PrintStream writer) {
 		} catch(Exception e) {
 			System.out.println("Suite class \""+testCase+"\" not found");
 			System.exit(-1);
+			return null;
 		}
 		Test suite= null;
 		Method suiteMethod= null;
@@ -243,6 +245,7 @@ public TestRunner(PrintStream writer) {
 		} catch(Exception e) {
 			System.out.println("Could not invoke the suite() method");
 			System.exit(-1);
+			return null;
 		}
 		return suite;
 	}
