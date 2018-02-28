@@ -26,6 +26,7 @@ import junit.util.*;
  * summary at the end. 
  */
 public class TestRunner implements TestListener {
+	private static final String SUITE_METHODNAME = "suite";
 	PrintStream fWriter;
 /**
  * This method was created in VisualAge.
@@ -234,7 +235,7 @@ public TestRunner(PrintStream writer) {
 		
 		Method suiteMethod= null;
 		try {
-			suiteMethod= testClass.getMethod("suite", new Class[0]);
+			suiteMethod= testClass.getMethod(SUITE_METHODNAME, new Class[0]);
 		} catch(Exception e) {
 			// try to extract a test suite automatically
 			return new TestSuite(testClass);
