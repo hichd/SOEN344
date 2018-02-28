@@ -218,6 +218,7 @@ public TestRunner(PrintStream writer) {
 	}
 	private Test getTest(String testCase) {
 		if (testCase.equals("")) {
+			clearStatus();
 			runFailed("Usage: TestRunner [-wait] testCaseName, where name is the name of the TestCase class");
 			return null;
 		}
@@ -234,7 +235,7 @@ public TestRunner(PrintStream writer) {
 		try {
 			suiteMethod= testClass.getMethod(SUITE_METHODNAME, new Class[0]);
 		} catch(Exception e) {
-			// try to extract a test suite automatically
+			clearStatus();
 			return new TestSuite(testClass);
 		}
 		
@@ -245,7 +246,11 @@ public TestRunner(PrintStream writer) {
 			runFailed("Could not invoke the suite() method");
 			return null;
 		}
+		clearStatus();
 		return suite;
+	}
+	private void clearStatus() {
+		
 	}
 	private void runFailed(String message) {
 		System.out.println(message);
