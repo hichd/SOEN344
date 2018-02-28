@@ -160,7 +160,7 @@ public class TestRunner extends Object implements TestListener {
 			new TextListener() {
 				public void textValueChanged(TextEvent e) {
 					fRun.setEnabled(fSuiteField.getText().length() > 0);
-					fStatusLine.setText("");
+					clearStatus();
 				}
 			}
 		);
@@ -298,7 +298,7 @@ public class TestRunner extends Object implements TestListener {
 	}
 	private Test getTest(String suiteClassName) {
 		if (suiteClassName.length() <= 0) {
-			fStatusLine.setText("");
+			clearStatus();
 			runFailed("Invalid class name");
 			return null;
 		}
@@ -315,8 +315,7 @@ public class TestRunner extends Object implements TestListener {
 		try {
 			suiteMethod= testClass.getMethod(SUITE_METHODNAME, new Class[0]);
 	 	} catch(Exception e) {
-	 		// try to extract a test suite automatically
-			fStatusLine.setText("");			
+	 		clearStatus();			
 			return new TestSuite(testClass);
 		}
 	
@@ -327,8 +326,11 @@ public class TestRunner extends Object implements TestListener {
 			runFailed("Could not invoke the suite() method");
 			return null;
 		}
-		fStatusLine.setText("");
+		clearStatus();
 		return test;
+	}
+	private void clearStatus() {
+		fStatusLine.setText("");
 	}
 	private boolean isErrorSelected() {
 		return fFailureList.getSelectedIndex() != -1;
