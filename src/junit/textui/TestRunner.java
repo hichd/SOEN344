@@ -217,7 +217,7 @@ public TestRunner(PrintStream writer) {
 		}
 	}
 	private Test getTest(String suiteClassName) {
-		if (suiteClassName.equals("")) {
+		if (suiteClassName.length() <= 0) {
 			clearStatus();
 			runFailed("Usage: TestRunner [-wait] testCaseName, where name is the name of the TestCase class");
 			return null;
@@ -227,7 +227,7 @@ public TestRunner(PrintStream writer) {
 		try {
 			 testClass= loadSuiteClass(suiteClassName);
 		} catch(Exception e) {
-			runFailed("Suite class \""+suiteClassName+"\" not found");
+			runFailed("Class \""+suiteClassName+"\" not found");
 			return null;
 		}
 		
