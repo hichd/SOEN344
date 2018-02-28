@@ -237,7 +237,7 @@ public TestRunner(PrintStream writer) {
 			suiteMethod= testClass.getMethod("suite", new Class[0]);
 		} catch(Exception e) {
 			// try to extract a test suite automatically
-			suite= new TestSuite(testClass);
+			return new TestSuite(testClass);
 		}
 
 		try {
