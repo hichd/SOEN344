@@ -208,39 +208,43 @@ public TestRunner(PrintStream writer) {
 		}
 
 		try {
-			if (testCase.equals("")) {
-				System.out.println("Usage: TestRunner [-wait] testCaseName, where name is the name of the TestCase class");
-				System.exit(-1);
-			}
-			
-			Class testClass= null;
-			try {
-				 testClass= Class.forName(testCase);
-			} catch(Exception e) {
-				System.out.println("Suite class \""+testCase+"\" not found");
-				System.exit(-1);
-			}
-			Test suite= null;
-			Method suiteMethod= null;
-			try {
-				suiteMethod= testClass.getMethod("suite", new Class[0]);
-		 	} catch(Exception e) {
-		 		// try to extract a test suite automatically
-				suite= new TestSuite(testClass);
-			}
-
-			try {
-				suite= (Test)suiteMethod.invoke(null, new Class[0]); // static method
-			} catch(Exception e) {
-				System.out.println("Could not invoke the suite() method");
-				System.exit(-1);
-			}
+			Test suite = getTest(testCase);
 			doRun(suite, wait);
 		}
 		catch(Exception e) {
 			System.out.println("Could not create and run test suite");
 			System.exit(-1);
 		}
+	}
+	private Test getTest(String testCase) {
+		if (testCase.equals("")) {
+			System.out.println("Usage: TestRunner [-wait] testCaseName, where name is the name of the TestCase class");
+			System.exit(-1);
+		}
+		
+		Class testClass= null;
+		try {
+			 testClass= Class.forName(testCase);
+		} catch(Exception e) {
+			System.out.println("Suite class \""+testCase+"\" not found");
+			System.exit(-1);
+		}
+		Test suite= null;
+		Method suiteMethod= null;
+		try {
+			suiteMethod= testClass.getMethod("suite", new Class[0]);
+		} catch(Exception e) {
+			// try to extract a test suite automatically
+			suite= new TestSuite(testClass);
+		}
+
+		try {
+			suite= (Test)suiteMethod.invoke(null, new Class[0]); // static method
+		} catch(Exception e) {
+			System.out.println("Could not invoke the suite() method");
+			System.exit(-1);
+		}
+		return suite;
 	}
 	public synchronized void startTest(Test test) {
 		System.out.print(".");
