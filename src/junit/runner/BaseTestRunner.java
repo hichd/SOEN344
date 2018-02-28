@@ -17,7 +17,7 @@ public abstract class BaseTestRunner {
 
 	private static final String SUITE_METHODNAME = "suite";
 
-	protected Test getTest(String suiteClassName) {
+	public Test getTest(String suiteClassName) {
 		if (suiteClassName.length() <= 0) {
 			clearStatus();
 			runFailed(invalidClassNameMessage());
