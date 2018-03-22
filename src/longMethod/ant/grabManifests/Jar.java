@@ -25,7 +25,7 @@ public class Jar {
         for (int i = 0; i < rcs.length; i++) {
             Resource[][] resources = computeResources(rcs, i);
             for (int j = 0; j < resources[0].length; j++) {
-                String name = computeName(rcs, i, resources, j, resources[0][j]);
+                String name = computeName(rcs, i, resources, j, resources[0][j], rcs[i]);
                 if (name.equalsIgnoreCase(MANIFEST_NAME)) {
                     manifests[i] = new Resource[] {resources[0][j]};
                     break;
@@ -38,10 +38,10 @@ public class Jar {
         return manifests;
     }
 
-	private String computeName(ResourceCollection[] rcs, int i, Resource[][] resources, int j, Resource resource) {
+	private String computeName(ResourceCollection[] rcs, int i, Resource[][] resources, int j, Resource resource, ResourceCollection resourceCollection) {
 		String name = resource.getName().replace('\\', '/');
-		if (rcs[i] instanceof ArchiveFileSet) {
-		    ArchiveFileSet afs = (ArchiveFileSet) rcs[i];
+		if (resourceCollection instanceof ArchiveFileSet) {
+		    ArchiveFileSet afs = (ArchiveFileSet) resourceCollection;
 		    if (!"".equals(afs.getFullpath(getProject()))) {
 		        name = afs.getFullpath(getProject());
 		    } else if (!"".equals(afs.getPrefix(getProject()))) {
