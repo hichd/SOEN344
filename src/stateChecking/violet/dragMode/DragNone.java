@@ -1,5 +1,6 @@
 package stateChecking.violet.dragMode;
 
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 
 /**
@@ -11,5 +12,8 @@ public class DragNone extends DragMode {
 	}
 
 	public void mouseDragged(Point2D mousePoint, boolean isCtrl, GraphPanel graphPanel) {
+	}
+
+	public void paintComponent(Graphics2D g2, GraphPanel graphPanel) {
 	}
 }

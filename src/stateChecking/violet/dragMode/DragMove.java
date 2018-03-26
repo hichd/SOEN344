@@ -1,6 +1,7 @@
 package stateChecking.violet.dragMode;
 
 import com.horstmann.violet.framework.Node;
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Iterator;
@@ -40,5 +41,8 @@ public class DragMove extends DragMode {
 				}
 			}
 		}
+	}
+
+	public void paintComponent(Graphics2D g2, GraphPanel graphPanel) {
 	}
 }
