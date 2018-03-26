@@ -11,9 +11,6 @@ import java.util.Iterator;
  * @see stateChecking.violet.dragMode.GraphPanel#DRAG_LASSO
  */
 public class DragLasso extends DragMode {
-	public int getDragMode() {
-		return GraphPanel.DRAG_LASSO;
-	}
 
 	public void mouseDragged(Point2D mousePoint, boolean isCtrl, GraphPanel graphPanel) {
 		double x1 = graphPanel.getMouseDownPoint().getX();

@@ -367,7 +367,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
 	}
 
-	public void setDragMode(int dragMode) {
+	private void setDragMode(int dragMode) {
 		switch (dragMode) {
 		case DRAG_LASSO:
 			this.dragMode = new DragLasso();
@@ -385,10 +385,6 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 			this.dragMode = null;
 			break;
 		}
-	}
-
-	public int getDragMode() {
-		return dragMode.getDragMode();
 	}
 
 	public Point2D getMouseDownPoint() {

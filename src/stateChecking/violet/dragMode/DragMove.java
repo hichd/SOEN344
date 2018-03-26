@@ -10,9 +10,6 @@ import java.util.Iterator;
  * @see stateChecking.violet.dragMode.GraphPanel#DRAG_MOVE
  */
 public class DragMove extends DragMode {
-	public int getDragMode() {
-		return GraphPanel.DRAG_MOVE;
-	}
 
 	public void mouseDragged(Point2D mousePoint, boolean isCtrl, GraphPanel graphPanel) {
 		if (graphPanel.getLastSelected() instanceof Node) {
