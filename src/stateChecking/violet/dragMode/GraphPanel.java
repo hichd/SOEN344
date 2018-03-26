@@ -71,7 +71,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
 	private Point2D lastMousePoint;
 	private Point2D mouseDownPoint;   
-	private int dragMode;
+	private DragMode dragMode = new DragNone();
 
 	protected static final int DRAG_NONE = 0;
 	protected static final int DRAG_MOVE = 1;
@@ -175,14 +175,14 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 		while (iter.hasNext())      
 			removeSelectedItem(iter.next());                 
 
-		if (dragMode == DRAG_RUBBERBAND)
+		if (getDragMode() == DRAG_RUBBERBAND)
 		{
 			Color oldColor = g2.getColor();
 			g2.setColor(PURPLE);
 			g2.draw(new Line2D.Double(mouseDownPoint, lastMousePoint));
 			g2.setColor(oldColor);
 		}      
-		else if (dragMode == DRAG_LASSO)
+		else if (getDragMode() == DRAG_LASSO)
 		{
 			Color oldColor = g2.getColor();
 			g2.setColor(PURPLE);
@@ -306,13 +306,13 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 					addSelectedItem(n);
 				else if (!selectedItems.contains(n))
 					setSelectedItem(n);
-				dragMode = DRAG_MOVE;
+				setDragMode(DRAG_MOVE);
 			}
 			else
 			{
 				if (!isCtrl)
 					clearSelection();
-				dragMode = DRAG_LASSO;
+				setDragMode(DRAG_LASSO);
 			}
 		}
 		else if (tool instanceof Node)
@@ -324,7 +324,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 			{
 				setModified(true);
 				setSelectedItem(newNode);
-				dragMode = DRAG_MOVE;
+				setDragMode(DRAG_MOVE);
 			}
 			else if (n != null)
 			{
@@ -332,12 +332,12 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 					addSelectedItem(n);
 				else if (!selectedItems.contains(n))
 					setSelectedItem(n);
-				dragMode = DRAG_MOVE;
+				setDragMode(DRAG_MOVE);
 			}
 		}
 		else if (tool instanceof Edge)
 		{
-			if (n != null) dragMode = DRAG_RUBBERBAND;
+			if (n != null) setDragMode(DRAG_RUBBERBAND);
 		}
 
 		lastMousePoint = mousePoint;
@@ -350,7 +350,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 		Point2D mousePoint = new Point2D.Double(event.getX() / zoom,
 				event.getY() / zoom);
 		Object tool = toolBar.getSelectedTool();
-		if (dragMode == DRAG_RUBBERBAND)
+		if (getDragMode() == DRAG_RUBBERBAND)
 		{
 			Edge prototype = (Edge) tool;
 			Edge newEdge = (Edge) prototype.clone();
@@ -361,13 +361,13 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 				setSelectedItem(newEdge);
 			}
 		}
-		else if (dragMode == DRAG_MOVE)
+		else if (getDragMode() == DRAG_MOVE)
 		{
 			graph.layout();
 			setModified(true);
 		}
 
-		dragMode = DRAG_NONE;
+		setDragMode(DRAG_NONE);
 
 		revalidate();
 		repaint();
@@ -391,7 +391,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 				event.getY() / zoom);
 		boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0; 
 
-		if (dragMode == DRAG_MOVE && lastSelected instanceof Node)
+		if (getDragMode() == DRAG_MOVE && lastSelected instanceof Node)
 		{               
 			Node lastNode = (Node) lastSelected;
 			Rectangle2D bounds = lastNode.getBounds();
@@ -431,7 +431,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 			// we don't want continuous layout any more because of multiple selection
 			// graph.layout();
 		}            
-		else if (dragMode == DRAG_LASSO)
+		else if (getDragMode() == DRAG_LASSO)
 		{
 			double x1 = mouseDownPoint.getX();
 			double y1 = mouseDownPoint.getY();
@@ -461,5 +461,29 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
 	public void mouseMoved(MouseEvent arg0) {
 
+	}
+
+	public void setDragMode(int dragMode) {
+		switch (dragMode) {
+		case DRAG_LASSO:
+			this.dragMode = new DragLasso();
+			break;
+		case DRAG_MOVE:
+			this.dragMode = new DragMove();
+			break;
+		case DRAG_RUBBERBAND:
+			this.dragMode = new DragRubberband();
+			break;
+		case DRAG_NONE:
+			this.dragMode = new DragNone();
+			break;
+		default:
+			this.dragMode = null;
+			break;
+		}
+	}
+
+	public int getDragMode() {
+		return dragMode.getDragMode();
 	}
 }
