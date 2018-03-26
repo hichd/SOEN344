@@ -73,10 +73,10 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 	private Point2D mouseDownPoint;   
 	private int dragMode;
 
-	private static final int DRAG_NONE = 0;
-	private static final int DRAG_MOVE = 1;
-	private static final int DRAG_RUBBERBAND = 2;
-	private static final int DRAG_LASSO = 3;
+	protected static final int DRAG_NONE = 0;
+	protected static final int DRAG_MOVE = 1;
+	protected static final int DRAG_RUBBERBAND = 2;
+	protected static final int DRAG_LASSO = 3;
 
 	private static final int GRID = 10;
 
