@@ -244,13 +244,13 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 		}
 	}
 
-	private void addSelectedItem(Object obj)
+	public void addSelectedItem(Object obj)
 	{
 		lastSelected = obj;      
 		selectedItems.add(obj);
 	}
 
-	private void removeSelectedItem(Object obj)
+	public void removeSelectedItem(Object obj)
 	{
 		if (obj == lastSelected)
 			lastSelected = null;
@@ -391,69 +391,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 				event.getY() / zoom);
 		boolean isCtrl = (event.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0; 
 
-		if (getDragMode() == DRAG_MOVE && lastSelected instanceof Node)
-		{               
-			Node lastNode = (Node) lastSelected;
-			Rectangle2D bounds = lastNode.getBounds();
-			double dx = mousePoint.getX() - lastMousePoint.getX();
-			double dy = mousePoint.getY() - lastMousePoint.getY();
-
-			// we don't want to drag nodes into negative coordinates
-			// particularly with multiple selection, we might never be 
-			// able to get them back.
-			Iterator iter = selectedItems.iterator();
-			while (iter.hasNext())
-			{
-				Object selected = iter.next();                 
-				if (selected instanceof Node)
-				{
-					Node n = (Node) selected;
-					bounds.add(n.getBounds());
-				}
-			}
-			dx = Math.max(dx, -bounds.getX());
-			dy = Math.max(dy, -bounds.getY());
-
-			iter = selectedItems.iterator();
-			while (iter.hasNext())
-			{
-				Object selected = iter.next();                 
-				if (selected instanceof Node)
-				{
-					Node n = (Node) selected;
-					// If the father is selected, don't move the children
-					if (!selectedItems.contains(n.getParent()))
-					{
-						n.translate(dx, dy);
-					}
-				}
-			}
-			// we don't want continuous layout any more because of multiple selection
-			// graph.layout();
-		}            
-		else if (getDragMode() == DRAG_LASSO)
-		{
-			double x1 = mouseDownPoint.getX();
-			double y1 = mouseDownPoint.getY();
-			double x2 = mousePoint.getX();
-			double y2 = mousePoint.getY();
-			Rectangle2D.Double lasso = new Rectangle2D.Double(Math.min(x1, x2), 
-					Math.min(y1, y2), Math.abs(x1 - x2) , Math.abs(y1 - y2));
-			Iterator iter = graph.getNodes().iterator();
-			while (iter.hasNext())
-			{
-				Node n = (Node) iter.next();
-				Rectangle2D bounds = n.getBounds();
-				if (!isCtrl && !lasso.contains(bounds)) 
-				{
-					removeSelectedItem(n);
-				}
-				else if (lasso.contains(bounds)) 
-				{
-					addSelectedItem(n);
-				}
-			}
-		}
+		dragMode.mouseDragged(mousePoint, isCtrl, this);
 
 		lastMousePoint = mousePoint;
 		repaint();
@@ -485,5 +423,25 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
 	public int getDragMode() {
 		return dragMode.getDragMode();
+	}
+
+	public Point2D getMouseDownPoint() {
+		return mouseDownPoint;
+	}
+
+	public Graph getGraph() {
+		return graph;
+	}
+
+	public Object getLastSelected() {
+		return lastSelected;
+	}
+
+	public Point2D getLastMousePoint() {
+		return lastMousePoint;
+	}
+
+	public Set getSelectedItems() {
+		return selectedItems;
 	}
 }
