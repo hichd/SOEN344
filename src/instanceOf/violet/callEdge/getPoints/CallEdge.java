@@ -61,40 +61,8 @@ public class CallEdge extends SegmentedLineEdge
 		ArrayList<Point2D> a = new ArrayList<Point2D>();
 		Node endNode = getEnd();
 		Node startNode = getStart();
-		Rectangle2D start = startNode.getBounds();
-		Rectangle2D end = endNode.getBounds();
 
-		if (endNode instanceof CallNode &&
-				((CallNode)endNode).getImplicitParameter() ==
-				((CallNode)startNode).getImplicitParameter())
-		{
-			Point2D p = new Point2D.Double(start.getMaxX(), end.getY() - CallNode.CALL_YGAP / 2);
-			Point2D q = new Point2D.Double(end.getMaxX(), end.getY());
-			Point2D s = new Point2D.Double(q.getX() + end.getWidth(), q.getY());
-			Point2D r = new Point2D.Double(s.getX(), p.getY());
-			a.add(p);
-			a.add(r);
-			a.add(s);
-			a.add(q);
-		}
-		else if (endNode instanceof PointNode) // show nicely in tool bar
-		{
-			a.add(new Point2D.Double(start.getMaxX(), start.getY()));
-			a.add(new Point2D.Double(end.getX(), start.getY()));
-		}
-		else     
-		{
-			Direction d = new Direction(start.getX() - end.getX(), 0);
-			Point2D endPoint = getEnd().getConnectionPoint(d);
-
-			if (start.getCenterX() < endPoint.getX())
-				a.add(new Point2D.Double(start.getMaxX(),
-						endPoint.getY()));
-			else
-				a.add(new Point2D.Double(start.getX(),
-						endPoint.getY()));
-			a.add(endPoint);
-		}
+		endNode.getPoints(startNode, endNode);
 		return a;
 	}
 
