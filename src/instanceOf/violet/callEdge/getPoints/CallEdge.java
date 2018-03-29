@@ -59,13 +59,14 @@ public class CallEdge extends SegmentedLineEdge
 	public ArrayList<Point2D> getPoints()
 	{
 		ArrayList<Point2D> a = new ArrayList<Point2D>();
-		Node n = getEnd();
-		Rectangle2D start = getStart().getBounds();
-		Rectangle2D end = n.getBounds();
+		Node endNode = getEnd();
+		Node startNode = getStart();
+		Rectangle2D start = startNode.getBounds();
+		Rectangle2D end = endNode.getBounds();
 
-		if (n instanceof CallNode &&
-				((CallNode)n).getImplicitParameter() ==
-				((CallNode)getStart()).getImplicitParameter())
+		if (endNode instanceof CallNode &&
+				((CallNode)endNode).getImplicitParameter() ==
+				((CallNode)startNode).getImplicitParameter())
 		{
 			Point2D p = new Point2D.Double(start.getMaxX(), end.getY() - CallNode.CALL_YGAP / 2);
 			Point2D q = new Point2D.Double(end.getMaxX(), end.getY());
@@ -76,7 +77,7 @@ public class CallEdge extends SegmentedLineEdge
 			a.add(s);
 			a.add(q);
 		}
-		else if (n instanceof PointNode) // show nicely in tool bar
+		else if (endNode instanceof PointNode) // show nicely in tool bar
 		{
 			a.add(new Point2D.Double(start.getMaxX(), start.getY()));
 			a.add(new Point2D.Double(end.getX(), start.getY()));
