@@ -188,9 +188,9 @@ public abstract class AbstractNode implements Node
 	private ArrayList children;
 	private Node parent;
 	
-	public ArrayList<Point2D> getPoints(Node startNode, Node endNode) {
+	public ArrayList<Point2D> getPoints(Node endNode) {
 		ArrayList<Point2D> a = new ArrayList<Point2D>();
-		Rectangle2D start = startNode.getBounds();
+		Rectangle2D start = this.getBounds();
 		Rectangle2D end = endNode.getBounds();
 		Direction d = new Direction(start.getX() - end.getX(), 0);
 		Point2D endPoint = endNode.getConnectionPoint(d);

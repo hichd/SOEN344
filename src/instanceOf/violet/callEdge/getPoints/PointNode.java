@@ -72,9 +72,9 @@ public class PointNode extends AbstractNode
 
 	private Point2D point;
 	
-	public ArrayList<Point2D> getPoints(Node startNode, Node endNode) {
+	public ArrayList<Point2D> getPoints(Node endNode) {
 		ArrayList<Point2D> a = new ArrayList<Point2D>();
-		Rectangle2D start = startNode.getBounds();
+		Rectangle2D start = this.getBounds();
 		Rectangle2D end = endNode.getBounds();
 		a.add(new Point2D.Double(start.getMaxX(), start.getY()));
 		a.add(new Point2D.Double(end.getX(), start.getY()));

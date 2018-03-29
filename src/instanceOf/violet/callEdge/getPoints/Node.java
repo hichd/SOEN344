@@ -147,5 +147,5 @@ public interface Node extends Serializable, Cloneable
 
 	Object clone();
 	
-	public ArrayList<Point2D> getPoints(Node startNode, Node endNode);
+	public ArrayList<Point2D> getPoints(Node endNode);
 }

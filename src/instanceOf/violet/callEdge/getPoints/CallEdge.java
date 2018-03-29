@@ -58,12 +58,10 @@ public class CallEdge extends SegmentedLineEdge
 
 	public ArrayList<Point2D> getPoints()
 	{
-		ArrayList<Point2D> a = new ArrayList<Point2D>();
 		Node endNode = getEnd();
 		Node startNode = getStart();
 
-		endNode.getPoints(startNode, endNode);
-		return a;
+		return startNode.getPoints(endNode);
 	}
 
 	private boolean signal;
