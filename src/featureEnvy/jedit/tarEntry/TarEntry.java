@@ -529,25 +529,7 @@ extends		Object
 		return result;
 		}
 
-	/**
-	 * Compute the checksum of a tar entry header.
-	 *
-	 * @param buf The tar entry's header buffer.
-	 * @return The computed checksum.
-	 */
-	public long
-	computeCheckSum( byte[] buf )
-		{
-		long sum = 0;
-
-		for ( int i = 0 ; i < buf.length ; ++i )
-			{
-			sum += 255 & buf[ i ];
-			}
-
-		return sum;
-		}
-
+	
 	/**
 	 * Write an entry's header information to a header buffer.
 	 *
@@ -605,7 +587,7 @@ extends		Object
 		for ( ; offset < outbuf.length ; )
 			outbuf[ offset++ ] = 0;
 
-		long checkSum = this.computeCheckSum( outbuf );
+		long checkSum = TarHeader.computeCheckSum( outbuf );
 
 		TarHeader.getCheckSumOctalBytes
 			( checkSum, outbuf, csOffset, TarHeader.CHKSUMLEN );
