@@ -121,7 +121,7 @@ extends		Object
 		throws InvalidHeaderException
 		{
 		this.initialize();
-		this.parseTarHeader( this.header, headerBuf );
+		this.header.parseTarHeader(headerBuf );
 		}
 
 	/**
@@ -609,19 +609,6 @@ extends		Object
 
 		TarHeader.getCheckSumOctalBytes
 			( checkSum, outbuf, csOffset, TarHeader.CHKSUMLEN );
-		}
-
-	/**
-	 * Parse an entry's TarHeader information from a header buffer.
-	 *
-	 * @param hdr The TarHeader to fill in from the buffer information.
-	 * @param header The tar entry header buffer to get information from.
-	 */
-	public void
-	parseTarHeader( TarHeader hdr, byte[] header )
-		throws InvalidHeaderException
-		{
-			hdr.parseTarHeader(header);
 		}
 
 	/**
