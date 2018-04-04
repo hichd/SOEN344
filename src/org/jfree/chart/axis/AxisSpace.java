@@ -49,6 +49,7 @@ package org.jfree.chart.axis;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.ui.RectangleEdge;
 import org.jfree.util.PublicCloneable;
 
@@ -374,5 +375,16 @@ public class AxisSpace implements Cloneable, PublicCloneable, Serializable {
         return super.toString() + "[left=" + this.left + ",right=" + this.right
                     + ",top=" + this.top + ",bottom=" + this.bottom + "]";
     }
+
+	public void copy(AxisSpace fixed, PlotOrientation orientation) {
+		if (orientation == PlotOrientation.HORIZONTAL) {
+		    setLeft(fixed.getLeft());
+		    setRight(fixed.getRight());
+		}
+		else if (orientation == PlotOrientation.VERTICAL) {
+		    setTop(fixed.getTop());
+		    setBottom(fixed.getBottom());
+		}
+	}
 
 }

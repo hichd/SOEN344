@@ -344,7 +344,7 @@ public class CombinedDomainCategoryPlot extends CategoryPlot
         // work out the space required by the domain axis...
         AxisSpace fixed = getFixedDomainAxisSpace();
         if (fixed != null) {
-            copy(space, fixed, orientation);
+            space.copy(fixed, orientation);
         }
         else {
             CategoryAxis categoryAxis = getDomainAxis();
@@ -402,18 +402,7 @@ public class CombinedDomainCategoryPlot extends CategoryPlot
         return space;
     }
 
-	private void copy(AxisSpace space, AxisSpace fixed, PlotOrientation orientation) {
-		if (orientation == PlotOrientation.HORIZONTAL) {
-		    space.setLeft(fixed.getLeft());
-		    space.setRight(fixed.getRight());
-		}
-		else if (orientation == PlotOrientation.VERTICAL) {
-		    space.setTop(fixed.getTop());
-		    space.setBottom(fixed.getBottom());
-		}
-	}
-
-    /**
+	/**
      * Draws the plot on a Java 2D graphics device (such as the screen or a
      * printer).  Will perform all the placement calculations for each of the
      * sub-plots and then tell these to draw themselves.
