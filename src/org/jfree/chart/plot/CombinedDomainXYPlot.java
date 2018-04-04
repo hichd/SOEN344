@@ -352,14 +352,7 @@ public class CombinedDomainXYPlot extends XYPlot
         // work out the space required by the domain axis...
         AxisSpace fixed = getFixedDomainAxisSpace();
         if (fixed != null) {
-            if (orientation == PlotOrientation.HORIZONTAL) {
-                space.setLeft(fixed.getLeft());
-                space.setRight(fixed.getRight());
-            }
-            else if (orientation == PlotOrientation.VERTICAL) {
-                space.setTop(fixed.getTop());
-                space.setBottom(fixed.getBottom());
-            }
+        	space.copy(fixed, orientation);
         }
         else {
             ValueAxis xAxis = getDomainAxis();
