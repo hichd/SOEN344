@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import largeClass.Database.UnableToCreateDatabaseException;
-
 public class DatabaseConnection {
 	private Connection connection = null;
 	
