@@ -20,27 +20,13 @@ import java.sql.Statement;
  *
  */
 public class Database {
-	private Connection connection = null;
+	private DatabaseConnection dbConnection;
 	
 	public Database(String driver, String url, String user, String password)
 		throws UnableToCreateDatabaseException 
 	{
 		
-		try{
-			
-			Class.forName(driver);
-			connection = DriverManager.getConnection(url, user, password);
-			
-		} catch (NullPointerException npe){
-			throw new UnableToCreateDatabaseException("Error: a Database constructor argument is null.");
-		} catch (ClassNotFoundException e) {
-			throw new UnableToCreateDatabaseException("Error: database driver not found.");
-		} catch (SQLException sqle) {
-			throw new UnableToCreateDatabaseException("Error: Could not connect to requested Database.");
-		}
-		
-		System.out.println("Successfully connected to database.");
-		
+		this.dbConnection = new DatabaseConnection(driver, url, user, password);
 	}
 	
 	/**
