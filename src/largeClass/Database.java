@@ -20,7 +20,6 @@ import java.sql.Statement;
  *
  */
 public class Database {
-	private final boolean NODATABASE = false;
 	private Connection connection = null;
 	
 	public Database(String driver, String url, String user, String password)
@@ -131,10 +130,6 @@ public class Database {
 		//		   Customer   VARCHAR (20),
 		//		   PRIMARY KEY( pKey )
 		//		                     )
-		if (NODATABASE) {
-			System.out.println("Creating" + table);
-			return true;
-		}
 		
 		if (table == null || table.length() < 1){
 			System.err.println("Table's name must not be empty or null. Table create failed.");
@@ -198,10 +193,7 @@ public class Database {
 	 * @return true if drop is successful, false otherwise.
 	 */
 	public boolean dropTable(String table){
-		if (NODATABASE) {
-			System.out.println("dropping" + table);
-			return true;
-		}
+
 		Statement statement = createStatement();
 		
 		try {
@@ -249,10 +241,6 @@ public class Database {
 	 * @return true if the insert was successful and false otherwise.
 	 */
 	public boolean insert(String table, String[] cols, String[] values){
-		if (NODATABASE) {
-			System.out.println("inserting into " + table);
-			return true;
-		}
 		
 		if (cols != null && cols.length != values.length) {
 			System.err.println("You must have the same number of columns and values.");
@@ -295,10 +283,6 @@ public class Database {
 	}
 	
 	public boolean insert(String table, String columnText, String values){
-		if (NODATABASE) {
-			System.out.println("inserting into " + table);
-			return true;
-		}
 		
 		Statement statement = createStatement();
 
