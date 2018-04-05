@@ -55,25 +55,7 @@ public class Database {
      */
     private Statement createStatement() {
     	
-        Statement statement = null;
-        
-        try {
-        	
-        	if (connection == null){
-            	System.err.println(this.getClass().getName() + "Error: unable to create Statement object.");
-            	System.exit(-1);
-            }
-        	
-            statement = connection.createStatement(
-            		ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
-
-        } catch (SQLException sqle) {
-            System.err.println("Could not create statement");
-            sqle.printStackTrace();
-        }
-        
-        return statement;
+        return dbConnection.createStatement();
     }
 	
     
