@@ -254,7 +254,7 @@ public class Database {
 			// finishes but it takes an additional network increment before that happens 
 			// so when the increment occurs the state of an End point changes and wants 
 			// to write to the database, which is now closed.
-			if (connection.isClosed()){
+			if (isClosed()){
 				return false;
 			} else {
 				statement.executeUpdate("INSERT INTO " + table + columnText + " VALUES (" + values + ")");
@@ -270,7 +270,9 @@ public class Database {
 		
 	}
 
-	
+	private boolean isClosed() {
+		return connection.isClosed();
+	}
 	
 	
 	/**
