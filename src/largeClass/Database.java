@@ -270,8 +270,8 @@ public class Database {
 		
 	}
 
-	private boolean isClosed() {
-		return connection.isClosed();
+	private boolean isClosed() throws SQLException {
+		return dbConnection.isClosed();
 	}
 	
 	

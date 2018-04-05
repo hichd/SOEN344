@@ -74,4 +74,8 @@ public class DatabaseConnection {
 		}
 	}
 
+	public boolean isClosed() throws SQLException {
+		return connection.isClosed();
+	}
+	
 }
